@@ -1,0 +1,38 @@
+﻿@model HAO_CRUD_APP_3.Models.Sales
+@{
+    ViewBag.Title = "Sales";
+    Layout = "~/Views/Shared/Main.cshtml";
+}
+
+<button type="button" class="btn btn-primary btn-sales">Sales List</button>
+<div class="customer-list">
+    <div class="container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Sold Time</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if(ViewBag.list != null)
+                {
+                    foreach(HAO_CRUD_APP_3.Models.Sales item in ViewBag.list)
+                    {
+
+
+                <tr>
+                    <th scope="row">@item.ProductId</th>
+                    <td>@item.CustomerName</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.ProductSold</td>
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

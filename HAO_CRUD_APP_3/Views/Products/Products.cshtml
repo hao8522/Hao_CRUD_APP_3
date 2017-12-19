@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/Main.cshtml";
+}
+
+<div class="modal" id="addProduct">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                <h4 class="modal-title">Add Products</h4>
+            </div>
+            @using (Html.BeginForm("AddProduct", "Products", FormMethod.Post))
+            {
+                <div class="modal-body">
+
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Product Name:</label>
+
+                        @Html.TextBox("Name", "", new { @class = "form-control", @id = "recipient-name" })
+                        @Html.ValidationMessage("Name")
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Price:</label>
+
+                        @Html.TextBox("Price", "", new { @class = "form-control", @id = "recipient-name" })
+                        @Html.ValidationMessage("Price")
+                    </div>
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Add</button>
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-danger btn-add-product" data-toggle="modal" data-target="#addProduct">Add Products</button>
+<div class="customer-list">
+    <div class="container">
+        <!-- On rows -->
+        <table class="table">
+            <caption>Products List</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Product Id</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Product Price</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (ViewBag.list != null)
+                {
+                    foreach (HAO_CRUD_APP_3.Models.Product item in ViewBag.list)
+                    {
+
+
+
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.Name</td>
+                            <td>@item.Price</td>
+                            <td><a class="btn btn-primary" href="/Products/LoadingModifyProducts?productId=@item.Id" role="button">Modify</a><a class="btn btn-primary btn-product-delete" href="/Products/DeleteProducts?productId=@item.Id" role="button">Delete</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

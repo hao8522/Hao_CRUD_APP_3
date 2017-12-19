@@ -1,0 +1,58 @@
+.customer-list{
+
+	margin-top:40px;
+}
+
+
+
+
+.btn-add-product, .btn-add-customer,.btn-sales {
+    margin-top: 80px;
+    margin-left: 120px;
+}
+
+.btn-customer-delete,.btn-product-delete {
+    background-color:red;
+    margin-left:2px;
+    
+}
+.btn-customer-delete:hover{
+	 background-color: green;
+}
+.btn-product-delete:hover {
+       
+    background-color: green;
+   
+}
+
+#footer{
+
+
+	background-color: #666;
+	border-top: 1px solid #ccc;
+	padding: 20px;
+	text-align: center;
+	color: #eee;
+}
+
+.modify-customer{
+
+    margin-top: 67px;
+    margin-left: 40px;
+    margin-bottom: 300px;
+    
+
+}
+
+.modify-customer .form-group {
+
+	width:43%;
+	margin:0 auto;
+}
+
+.modify-customer .btn-customer-modify{
+	margin-left: 374px;
+	margin-top:20px;
+}
+
+

@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/Main.cshtml";
+}
+
+<div class="modal" id="myModal" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"><span>&times;</span></button>
+
+                <h4 class="modal-title">Add Customer</h4>
+
+            </div>
+            @using (Html.BeginForm("AddCustomer", "Customers", FormMethod.Post))
+            {
+                <div class="modal-body">
+
+
+
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Username:</label>
+
+                        @Html.TextBox("Name", "", new { @class = "form-control", @id = "recipient-name" })
+                        @Html.ValidationMessage("Name")
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Address:</label>
+
+                        @Html.TextBox("Address", "", new { @class = "form-control", @id = "recipient-name" })
+                        @Html.ValidationMessage("Address")
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Create</button>
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+
+<button type="button" class="btn btn-primary btn-add-customer" data-toggle="modal" data-target="#myModal">Add Customer</button>
+<div class="customer-list">
+    <div class="container">
+        <!-- On rows -->
+        <table class="table">
+            <caption>Customers List</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Operation </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (ViewBag.list != null)
+                {
+
+                    foreach (HAO_CRUD_APP_3.Models.Customer item in ViewBag.list)
+                    {
+
+
+
+
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.Name</td>
+                            <td>@item.Address</td>
+                            <td><a class="btn btn-primary" href="/Customers/LoadingModifyCustomer?customerId=@item.Id" role="button">Modify</a><a class="btn btn-primary btn-customer-delete" href="/Customers/DeleteCustomer?customerId=@item.Id" role="button">Delete</a></td>
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
