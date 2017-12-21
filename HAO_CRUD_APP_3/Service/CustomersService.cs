@@ -9,63 +9,117 @@ namespace HAO_CRUD_APP_3.Service
 {
     public class CustomersService
     {
-        // add customer
-        public int AddCustomer(Customer customer)
+        //// add customer
+        //public int AddCustomer(Customer customer)
+        //{
+
+        //    using (HAO_Entities db = new HAO_Entities())
+        //    {
+        //        db.Customers.Add(customer);
+
+        //        return db.SaveChanges();
+        //    }
+
+        //}
+
+        //public int ModifyCustomer(Customer customer)
+        //{
+        //    using (HAO_Entities db = new HAO_Entities())
+        //    {
+        //        db.Customers.Attach(customer);
+        //        db.Entry<Customer>(customer).State = EntityState.Modified;
+        //        return db.SaveChanges();
+        //    }
+        //}
+
+        //public int DeleteCustomer(int customerId)
+        //{
+        //    using (HAO_Entities db = new HAO_Entities())
+        //    {
+        //        Customer customer = new Customer()
+        //        {
+        //            Id = customerId
+        //        };
+
+
+        //        db.Customers.Attach(customer);
+        //        db.Customers.Remove(customer);
+        //        return db.SaveChanges();
+        //    }
+        //}
+
+
+        //public List<Customer> GetAllCustomer()
+        //{
+        //    using (HAO_Entities db = new HAO_Entities())
+        //    {
+        //        return (from c in db.Customers select c).ToList();
+        //    }
+        //}
+
+
+        //public Customer GetCustomerById(int customerId)
+        //{
+        //    using (HAO_Entities db = new HAO_Entities())
+        //    {
+        //        return (from c in db.Customers where c.Id == customerId select c).FirstOrDefault();
+        //    }
+        //}
+
+        HAO_Entities db = new HAO_Entities();
+
+        public IEnumerable<Customer> GetAll()
         {
 
-            using (HAO_Entities db = new HAO_Entities())
-            {
-                db.Customers.Add(customer);
 
-                return db.SaveChanges();
-            }
+            return db.Customers;
 
         }
 
-        public int ModifyCustomer(Customer customer)
+
+        public Customer Add(Customer item)
         {
-            using (HAO_Entities db = new HAO_Entities())
+            if (item == null)
             {
-                db.Customers.Attach(customer);
-                db.Entry<Customer>(customer).State = EntityState.Modified;
-                return db.SaveChanges();
+                throw new ArgumentNullException("item");
             }
-        }
 
-        public int DeleteCustomer(int customerId)
-        {
-            using (HAO_Entities db = new HAO_Entities())
-            {
-                Customer customer = new Customer()
-                {
-                    Id = customerId
-                };
-
-
-                db.Customers.Attach(customer);
-                db.Customers.Remove(customer);
-                return db.SaveChanges();
-            }
+            // TO DO : Code to save record into database
+            db.Customers.Add(item);
+            db.SaveChanges();
+            return item;
         }
 
 
-        public List<Customer> GetAllCustomer()
+
+        public bool EditCustomer(Customer item)
         {
-            using (HAO_Entities db = new HAO_Entities())
+            if (item == null)
             {
-                return (from c in db.Customers select c).ToList();
+                throw new ArgumentNullException("item");
             }
+
+
+
+            var customers = db.Customers.Single(a => a.Id == item.Id);
+            customers.Name = item.Name;
+
+            customers.Address = item.Address;
+            db.SaveChanges();
+
+            return true;
         }
 
 
-        public Customer GetCustomerById(int customerId)
+        public bool DeleteCustomer(int id)
         {
-            using (HAO_Entities db = new HAO_Entities())
-            {
-                return (from c in db.Customers where c.Id == customerId select c).FirstOrDefault();
-            }
+            // TO DO : Code to remove the records from database
+
+            Customer customers = db.Customers.Find(id);
+            db.Customers.Remove(customers);
+            db.SaveChanges();
+
+            return true;
         }
-
-
     }
 }

@@ -67,27 +67,153 @@
                     <th scope="col">Operation </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody data-bind="foreach: Customers">
 
-                @if (ViewBag.list != null)
+                @*@if (ViewBag.list != null)
                 {
 
                     foreach (HAO_CRUD_APP_3.Models.Customer item in ViewBag.list)
-                    {
+                    {*@
 
 
 
 
                         <tr>
-                            <th scope="row">@item.Id</th>
-                            <td>@item.Name</td>
-                            <td>@item.Address</td>
-                            <td><a class="btn btn-primary" href="/Customers/LoadingModifyCustomer?customerId=@item.Id" role="button">Modify</a><a class="btn btn-primary btn-customer-delete" href="/Customers/DeleteCustomer?customerId=@item.Id" role="button">Delete</a></td>
-                        </tr>
+                            <th scope="row" data-bind=" text: Id "></th>
+                            <td data-bind="text: Name"></td>
+                            <td data-bind="text: Address"></td>
+                            <td><button class="btn btn-primary" data-bind="click:$root.edit">Edit</button> <button class="btn btn-primary btn-product-delete" data-bind="click: $root.delete">Delete</button>
+                     </tr>
 
-                    }
-                }
+                    @*}
+                }*@
             </tbody>
         </table>
     </div>
 </div>
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+
+
+<script src="~/Scripts/knockout-2.2.0.js"></script>
+
+<script type="text/javascript">
+
+
+
+        function CustomerViewModel() {
+            var self = this;
+
+            self.Id = ko.observable("");
+            self.Name = ko.observable("");
+            self.Price = ko.observable("");
+
+
+            var Customer = {
+
+                Id: self.Id,
+                Name: self.Name,
+                Price: self.Address
+            };
+
+
+            self.Customer = ko.observable();
+            self.Customers = ko.observableArray();
+
+
+            // get all Customer
+            $.ajax({
+
+                url: 'Customers/KCustomerList',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                data: {},
+                success: function (data) {
+                    self.Customers(data);
+                }
+
+
+
+            });
+
+            // edit product
+            // Edit product details
+            self.edit = function (Customers) {
+                self.Customer(Customers);
+
+            }
+
+            self.create = function () {
+                if (Customer.Name() != "" && Customer.Address() != "") {
+                    $.ajax({
+                        url: 'Customers/AddCustomer',
+                        cache: false,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: ko.toJSON(Customer),
+                        success: function (data) {
+                            self.Customers.push(data);
+
+                            self.Name("");
+                            self.Address("");
+                            alert('Add Customerst Successfully');
+                            location.href = "http://localhost:6203/";
+                        }
+                    }).fail(
+                        function (xhr, textStatus, err) {
+                            alert(err);
+                        });
+                }
+                else {
+                    alert('Please Enter All the Values !!');
+                }
+            }
+
+            // Delete product details
+            self.delete = function (Customer) {
+                if (confirm('Are you sure to Delete "' + Customer.Name + '" Customer ??')) {
+                    var id = Product.Id;
+
+                    $.ajax({
+                        url: 'Customers/DeleteCustomer/' + id,
+                        cache: false,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: id,
+                        success: function (data) {
+                            self.Products.remove(Customer);
+                        }
+                    }).fail(
+                        function (xhr, textStatus, err) {
+                            self.status(err);
+                        });
+                }
+            }
+
+
+
+            // Reset product details
+            self.reset = function () {
+                self.Name("");
+                self.Address("");
+               
+            }
+
+            // Cancel product details
+            self.cancel = function () {
+                self.Customer(null);
+            }
+
+        }
+
+
+
+    var viewModel = new CustomerViewModel();
+
+        ko.applyBindings(viewModel);
+
+
+</script>
