@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Onboarding Task</title>
+	 <link href="../../Styles/bootstrap.css" rel="stylesheet" />
+	  <link href="../../Styles/style.css" rel="stylesheet" />
+	
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			 <a href="#" class="navbar-brand">Onbroading Task</a>
+			 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			
+		</div>
+
+		<div class="collapse navbar-collapse" id="navbar-collapse">
+	     <ul class="nav navbar-nav navbar-right" style="margin: 0;">
+	     	<li class="active"><a href="#"><span class="glyphicon glyphicon-home"></span>Products</a></li>
+	   	    <li><a href="#"><span class="glyphicon glyphicon-list"></span>Customers</a></li>
+	     	<li><a href="#"><span class="glyphicon glyphicon-fire"></span>Sales</a></li>
+	     </ul>
+        </div>
+		
+	</div>
+</nav>
+    <label for="productId" data-bind="visible: false">ID</label>
+    <label data-bind="text: Product().Id, visible: false"></label>
+<form class="modify-customer">
+  <div class="form-group">
+    <label for="exampleInputEmail1"> Product Name </label>
+    <input type="email" data-bind="value: Product().Name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+  
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Price</label>
+    <input type="password" data-bind="value: Product().Price"  class="form-control" id="exampleInputPassword1" placeholder="">
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-customer-modify" data-bind="click: $root.update">Modify Product</button>
+</form>
+
+<footer id="footer">
+	<div class="container">
+		<p>ASP.NET MVC| GIT | PYHON</p>
+		<p> © 2017  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Powered by Hao.</p>
+	</div>
+</footer>
+
+
+
+<script src="../../Scripts/jquery.min.js"></script>
+<script src="../../Scripts/bootstrap.min.js"></script>
+	<script type="text/javascript">
+
+        // Update product details
+        self.update = function () {
+            var Product = self.Product();
+
+            $.ajax({
+                url: 'Products/EditProduct',
+                cache: false,
+                type: 'PUT',
+                contentType: 'application/json; charset=utf-8',
+                data: ko.toJSON(Product),
+                success: function (data) {
+                    self.Products.removeAll();
+                    self.Products(data); //Put the response in ObservableArray
+                    self.Product(null);
+                    alert("Edited Product Successfully");
+                }
+            })
+                .fail(
+                function (xhr, textStatus, err) {
+                    alert(err);
+                });
+        }
+
+    </script>
+</body>
+</html>

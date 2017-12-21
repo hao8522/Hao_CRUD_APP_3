@@ -46,6 +46,6 @@ D:\Git_Projects\Hao_CRUD_APP_3\HAO_CRUD_APP_3\bin\System.Web.Webpages.Deployment
 D:\Git_Projects\Hao_CRUD_APP_3\HAO_CRUD_APP_3\bin\System.Web.Webpages.Razor.xml
 D:\Git_Projects\Hao_CRUD_APP_3\HAO_CRUD_APP_3\bin\System.Web.Helpers.xml
 D:\Git_Projects\Hao_CRUD_APP_3\HAO_CRUD_APP_3\bin\System.Web.Mvc.xml
-D:\Git_Projects\Hao_CRUD_APP_3\HAO_CRUD_APP_3\obj\Debug\HAO_CRUD_APP_3.csprojResolveAssemblyReference.cache
 D:\Git_Projects\Hao_CRUD_APP_3\HAO_CRUD_APP_3\obj\Debug\HAO_CRUD_APP_3.dll
 D:\Git_Projects\Hao_CRUD_APP_3\HAO_CRUD_APP_3\obj\Debug\HAO_CRUD_APP_3.pdb
+D:\Git_Projects\Hao_CRUD_APP_3\HAO_CRUD_APP_3\obj\Debug\HAO_CRUD_APP_3.csprojResolveAssemblyReference.cache

@@ -1,80 +1,243 @@
-﻿
-@{
-    ViewBag.Title = "Products";
-    Layout = "~/Views/Shared/Main.cshtml";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Onboarding Task</title>
+    <link href="~/Styles/bootstrap.css" rel="stylesheet" />
+    <link href="~/Styles/style.css" rel="stylesheet" />
 
-<div class="modal" id="addProduct">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal"><span>&times;</span></button>
-                <h4 class="modal-title">Add Products</h4>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">Onboarding Task</a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
             </div>
-            @using (Html.BeginForm("AddProduct", "Products", FormMethod.Post))
-            {
-                <div class="modal-body">
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right" style="margin: 0;">
+                    <li class="active"><a href="/Products/ProductList"><span class="glyphicon glyphicon-home"></span>Products</a></li>
+                    <li><a href="/Customers/CustomersList"><span class="glyphicon glyphicon-list"></span>Customers</a></li>
+                    <li><a href="/Sales/Sales"><span class="glyphicon glyphicon-fire"></span>Sales</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
 
 
-                    <div class="form-group">
-                        <label for="recipient-name" class="form-control-label">Product Name:</label>
-
-                        @Html.TextBox("Name", "", new { @class = "form-control", @id = "recipient-name" })
-                        @Html.ValidationMessage("Name")
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="form-control-label">Price:</label>
-
-                        @Html.TextBox("Price", "", new { @class = "form-control", @id = "recipient-name" })
-                        @Html.ValidationMessage("Price")
-                    </div>
-
-
-
+    <div class="modal" id="addProduct">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">Add Products</h4>
                 </div>
+                @*@using (Html.BeginForm("AddProduct", "Products", FormMethod.Post))
+            {*@
+                    <div class="modal-body"  data-bind="ifnot: Product()">
 
-                <div class="modal-footer">
-                    <button class="btn btn-primary">Add</button>
-                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            }
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Product Name:</label>
+
+                            <input type="text" data-bind="value: $root.Name" class="form-control" id="recipient-name" title="Name">
+                           
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="form-control-label">Price:</label>
+                            <input type="text" data-bind="value: $root.Price" class="form-control" id="recipient-name" title="Price">
+                        
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-bind="click: $root.create">Add</button>
+                        <button class="btn btn-default" data-dismiss="modal" data-bind="click: $root.reset">Cancel</button>
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>
 
-<button type="button" class="btn btn-danger btn-add-product" data-toggle="modal" data-target="#addProduct">Add Products</button>
-<div class="customer-list">
-    <div class="container">
-        <!-- On rows -->
-        <table class="table">
-            <caption>Products List</caption>
-            <thead>
-                <tr>
-                    <th scope="col">Product Id</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Product Price</th>
+    <button type="button" class="btn btn-danger btn-add-product" data-toggle="modal" data-target="#addProduct">Add Products</button>
+    <div class="customer-list">
+        <div class="container">
+            <!-- On rows -->
+            <table class="table table-bordered" data-bind="visible:Products().length>0">
+                <caption>Products List</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Product Id</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Product Price</th>
+                        <th scope="col">Operation</th>
+                    </tr>
+                </thead>
 
-                </tr>
-            </thead>
-
-            <tbody>
-                @if (ViewBag.list != null)
-                {
-                    foreach (HAO_CRUD_APP_3.Models.Product item in ViewBag.list)
-                    {
+                <tbody data-bind="foreach:Products">
+          
 
 
-
-                        <tr>
-                            <th scope="row">@item.Id</th>
-                            <td>@item.Name</td>
-                            <td>@item.Price</td>
-                            <td><a class="btn btn-primary" href="/Products/LoadingModifyProducts?productId=@item.Id" role="button">Modify</a><a class="btn btn-primary btn-product-delete" href="/Products/DeleteProducts?productId=@item.Id" role="button">Delete</a></td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                    <tr>
+                        <th scope="row" data-bind="text:Id"></th>
+                        <td data-bind="text:Name"></td>
+                        <td data-bind="text:Price"></td>
+                        <td><button class="btn btn-primary" data-bind="click:$root.edit">Edit</button> <button class="btn btn-primary btn-product-delete" data-bind="click: $root.delete">Delete</button>
+</td>
+                    </tr>
+              
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+
+    <footer id="footer">
+        <div class="container">
+            <p>ASP.NET MVC| GIT | PYHON</p>
+            <p> © 2017  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Powered by Hao.</p>
+        </div>
+    </footer>
+
+
+  
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    @*/Products/ProductList*@
+
+    <script src="~/Scripts/knockout-2.2.0.js"></script>
+
+    <script type="text/javascript">
+
+
+
+        function ProductViewModel() {
+            var self = this;
+
+            self.Id = ko.observable("");
+            self.Name = ko.observable("");
+            self.Price = ko.observable("");
+
+
+            var Product = {
+
+                Id: self.Id,
+                Name: self.Name,
+                Price: self.Price
+            };
+
+
+            self.Product = ko.observable();
+            self.Products = ko.observableArray();
+
+
+            // get all products
+            $.ajax({
+
+                url: 'Products/KProductList',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                data: {},
+                success: function (data) {
+                    self.Products(data);
+                }
+
+
+
+            });
+
+            // edit product
+            // Edit product details
+            self.edit = function (Product) {
+                self.Product(Product);
+               
+            }
+
+            self.create = function () {
+                if (Product.Name() != "" && Product.Price() != "") {
+                    $.ajax({
+                        url: 'Products/AddProduct',
+                        cache: false,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: ko.toJSON(Product),
+                        success: function (data) {
+                            self.Products.push(data);
+                         
+                            self.Name("");
+                            self.Price("");
+                            alert('Add Product Successfully');
+                            location.href = "http://localhost:6203/";
+                        }
+                    }).fail(
+                        function (xhr, textStatus, err) {
+                            alert(err);
+                        });
+                }
+                else {
+                    alert('Please Enter All the Values !!');
+                }
+            }
+           
+            // Delete product details
+            self.delete = function (Product) {
+                if (confirm('Are you sure to Delete "' + Product.Name + '" product ??')) {
+                    var id = Product.Id;
+
+                    $.ajax({
+                        url: 'Products/DeleteProduct/' + id,
+                        cache: false,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: id,
+                        success: function (data) {
+                            self.Products.remove(Product);
+                        }
+                    }).fail(
+                        function (xhr, textStatus, err) {
+                            self.status(err);
+                        });
+                }
+            }
+
+
+
+            // Reset product details
+            self.reset = function () {
+                self.Name("");
+                self.Price("");
+                self.Category("");
+            }
+
+            // Cancel product details
+            self.cancel = function () {
+                self.Product(null);
+            }
+
+        }
+
+
+
+        var viewModel = new ProductViewModel();
+
+        ko.applyBindings(viewModel);
+
+
+    </script>
+
+
+</body>
+</html>
+
 

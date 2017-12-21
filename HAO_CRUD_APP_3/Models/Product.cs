@@ -17,7 +17,7 @@ namespace HAO_CRUD_APP_3.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.ProductSolds = new HashSet<ProductSold>();
+            //this.ProductSolds = new HashSet<ProductSold>();
         }
     
         public int Id { get; set; }

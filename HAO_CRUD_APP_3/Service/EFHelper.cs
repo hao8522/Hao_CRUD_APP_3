@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using HAO_CRUD_APP_3.Models;
 
 namespace HAO_CRUD_APP_3.Service
 {
@@ -39,5 +40,10 @@ namespace HAO_CRUD_APP_3.Service
             dbContext.Entry<T>(entity).State = EntityState.Deleted;
             return dbContext.SaveChanges();
         }
+
+
+
+
+      
     }
 }
