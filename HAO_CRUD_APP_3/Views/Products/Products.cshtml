@@ -47,12 +47,12 @@
                         <div class="form-group">
                             <label for="recipient-name" class="form-control-label">Product Name:</label>
 
-                            <input type="text" data-bind="value: $root.Name" class="form-control" id="recipient-name" title="Name">
+                            <input type="text" data-bind="value: $root.Name" class="form-control" id="recipient-name addProduct" title="Name">
                            
                         </div>
                         <div class="form-group">
                             <label for="recipient-name" class="form-control-label">Price:</label>
-                            <input type="text" data-bind="value: $root.Price" class="form-control" id="recipient-name" title="Price">
+                            <input type="text" data-bind="value: $root.Price" class="form-control" id="recipient-name addPrice" title="Price">
                         
                         </div>
 
@@ -139,6 +139,21 @@
 
             self.Product = ko.observable();
             self.Products = ko.observableArray();
+
+
+            self.addProduct = ko.observable().extend({
+
+                required: { params: true, message: "Please Input Product" },
+                minLength: 2,
+
+            });
+
+            self.addPrice = ko.observable().extend({
+
+                required: { params: true, message: "Please Input Press" },
+                minLength: 2,
+
+            });
 
 
             // get all products

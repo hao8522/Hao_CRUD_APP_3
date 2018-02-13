@@ -7,7 +7,7 @@
 <button type="button" class="btn btn-primary btn-sales">Sales List</button>
 <div class="customer-list">
     <div class="container">
-        <table class="table table-bordered">
+        <table class="table table-bordered"  data-bind="foreach:Saless">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -16,23 +16,77 @@
                     <th scope="col">Sold Time</th>
                 </tr>
             </thead>
-            <tbody>
-
-                @if(ViewBag.list != null)
-                {
-                    foreach(HAO_CRUD_APP_3.Models.Sales item in ViewBag.list)
-                    {
-
+            
 
                 <tr>
-                    <th scope="row">@item.ProductId</th>
-                    <td>@item.CustomerName</td>
-                    <td>@item.ProductName</td>
-                    <td>@item.ProductSold</td>
+                    <th scope="row"></th>
+                    <td data-bind="text:Id"></td>
+                    <td data-bind="text: CustomerName"></td>
+                    <td data-bind="text:ProductName"></td>
+                    <td data-bind="text:Date"></td>
                 </tr>
                     }
-                }
+             
             </tbody>
         </table>
     </div>
 </div>
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+
+
+<script src="~/Scripts/knockout-2.2.0.js"></script>
+
+<script type="text/javascript">
+
+
+
+        function SalesViewModel() {
+            var self = this;
+
+            self.Id = ko.observable("");
+            self.CustomerName = ko.observable("");
+            self.ProductName = ko.observable("");
+            self.Date = ko.observable("");
+
+            var Sales = {
+
+                Id: self.Id,
+                CustomerName: self.CustomerName,
+                ProductName: self.ProductName
+            };
+
+
+            self.Sales = ko.observable();
+            self.Saless = ko.observableArray();
+
+
+
+            // get all products
+            $.ajax({
+
+                url: 'Sales/GetSaleList',
+                cache: false,
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                data: {},
+                success: function (data) {
+                    self.Products(data);
+                }
+
+
+
+            });
+
+       
+
+
+
+            var viewModel = new SalesViewModel();
+
+        ko.applyBindings(viewModel);
+
+
+</script>
+
