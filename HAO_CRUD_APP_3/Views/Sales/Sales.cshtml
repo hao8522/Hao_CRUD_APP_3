@@ -14,17 +14,34 @@
                     <th scope="col">Customer Name</th>
                     <th scope="col">Product Name</th>
                     <th scope="col">Sold Time</th>
+                    <th scope="col">Operation</th>
                 </tr>
             </thead>
             
 
-                <tr>
-                    <th scope="row"></th>
-                    <td data-bind="text:Id"></td>
-                    <td data-bind="text: CustomerName"></td>
-                    <td data-bind="text:ProductName"></td>
-                    <td data-bind="text:Date"></td>
-                </tr>
+            <tr>
+                <th scope="row"></th>
+                <td data-bind="text:Id"></td>
+                <td data-bind="text: CustomerName"></td>
+                <td data-bind="text:ProductName"></td>
+                <td data-bind="text:Date"></td>
+                <td>
+                    <button class="btn btn-success" data-bind="click:$root.edit">
+                        Edit
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-success" data-bind="click:$root.delete">
+                        Edit
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-success" data-bind="click:$root.add">
+                        Edit
+                    </button>
+                </td>
+
+            </tr>
                     }
              
             </tbody>
@@ -72,12 +89,66 @@
                 contentType: 'application/json; charset=utf-8',
                 data: {},
                 success: function (data) {
-                    self.Products(data);
+                    self.Sales(data);
                 }
 
 
 
             });
+
+            // Edit product details
+            self.edit = function (Sales) {
+                self.Sales(Sales);
+
+            }
+
+            self.create = function () {
+                if (Sales.Name() != "" && Sales.Price() != "") {
+                    $.ajax({
+                        url: 'Sales/AddSales',
+                        cache: false,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: ko.toJSON(Product),
+                        success: function (data) {
+                            self.Products.push(data);
+
+                            self.Name("");
+                            self.Price("");
+                            alert('Add Product Successfully');
+                            location.href = "http://localhost:6203/";
+                        }
+                    }).fail(
+                        function (xhr, textStatus, err) {
+                            alert(err);
+                        });
+                }
+                else {
+                    alert('Please Enter All the Values !!');
+                }
+            }
+
+            // Delete product details
+            self.delete = function (Product) {
+                if (confirm('Are you sure to Delete "' + Sales.Name + '" sales ??')) {
+                    var id = Sales.Id;
+
+                    $.ajax({
+                        url: 'Sales/DeleteSales/' + id,
+                        cache: false,
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        data: id,
+                        success: function (data) {
+                            self.Products.remove(Sales);
+                        }
+                    }).fail(
+                        function (xhr, textStatus, err) {
+                            self.status(err);
+                        });
+                }
+            }
+
 
        
 
